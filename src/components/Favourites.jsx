@@ -17,15 +17,19 @@ const Favourites = function () {
   const dispatch = useDispatch()
   return (
     <>
-      <Breadcrumb>
-        <Link to="/" className="breadcrumb-item">
-          Home
-        </Link>
-        <Breadcrumb.Item active>Favourites</Breadcrumb.Item>
-      </Breadcrumb>
-
-      <Row>
+      <Row className="justify-content-start px-0">
+        <Col>
+          <Breadcrumb className="pb-5  mb-3 ms-0">
+            <Link to="/" className="breadcrumb-item">
+              Home
+            </Link>
+            <Breadcrumb.Item active>Favourites</Breadcrumb.Item>
+          </Breadcrumb>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
         <Col sm={12}>
+          <h2 className="text-center pb-4">Ecco i tuoi preferiti:</h2>
           <ListGroup>
             {preferiti.map((annuncio, i) => (
               <ListGroupItem key={i} className="text-start">
