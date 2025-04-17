@@ -9,10 +9,11 @@ import {
 } from "react-bootstrap"
 import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
+import { removeFromFavouritesAction } from "../redux/actions"
 
 const Favourites = function () {
   const preferiti = useSelector((state) => {
-    return state.favourite.content
+    return state.favourites.content
   })
   const dispatch = useDispatch()
   return (
@@ -36,10 +37,7 @@ const Favourites = function () {
                 <Button
                   variant="danger"
                   onClick={() => {
-                    dispatch({
-                      type: "REMOVE_FROM_FAVOURITES",
-                      payload: annuncio.company_name,
-                    })
+                    dispatch(removeFromFavouritesAction(annuncio))
                   }}
                 >
                   <svg

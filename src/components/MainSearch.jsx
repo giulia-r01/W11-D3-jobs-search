@@ -1,19 +1,28 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Container, Row, Col, Form, Button } from "react-bootstrap"
 import Job from "./Job"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { fetchJobsAction } from "../redux/actions"
 
 const MainSearch = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchJobsAction())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const favouriteLength = useSelector((state) => {
-    return state.favourite.content.length
+    return state.favourites.content.length
   })
 
   const [query, setQuery] = useState("")
-  const [jobs, setJobs] = useState([])
+  //const [jobs, setJobs] = useState([])
+  const jobs = useSelector((state) => state.results.results)
 
-  const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search="
+  // const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search="
 
   const handleChange = (e) => {
     setQuery(e.target.value)
@@ -21,18 +30,18 @@ const MainSearch = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    try {
-      const response = await fetch(baseEndpoint + query + "&limit=20")
-      if (response.ok) {
-        const { data } = await response.json()
-        setJobs(data)
-      } else {
-        alert("Error fetching results")
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    dispatch(fetchJobsAction(query))
+    //   // try {
+    //   //   const response = await fetch(baseEndpoint + query + "&limit=20")
+    //   //   if (response.ok) {
+    //   //     const { data } = await response.json()
+    //   //     setJobs(data)
+    //   //   } else {
+    //   //     alert("Error fetching results")
+    //   //   }
+    //   // } catch (error) {
+    //   //   console.log(error)
+    //   // }
   }
 
   return (
